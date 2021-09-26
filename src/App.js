@@ -6,6 +6,8 @@ import 'semantic-ui-css/semantic.min.css';
 import ContactList from './components/ContactList';
 import { useState, useEffect } from 'react';
 import { uuid } from 'uuidv4';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 
 function App() {
 
@@ -32,13 +34,17 @@ function App() {
     });
     setContacts(contactListAfterDelete);
   }
-  
+
 
   return (
     <div className="ui container">
-      <Header />
-      <AddContacts addContactsHandler={addContactsHandler} />
-      <ContactList contacts={contacts} idToDelete={deleteHandler} />
+
+      <Router>
+        <Switch>
+          <Route path="/" render={(props)=><ContactList {...props} contacts={contacts} idToDelete={deleteHandler} />} exact/>
+          <Route path="/add" render={(props)=><AddContacts {...props} addContactsHandler={addContactsHandler} />} />
+        </Switch>
+      </Router>
     </div>
   );
 }
